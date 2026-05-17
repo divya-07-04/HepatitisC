@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login/Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI';
+            background: #0b1220;
+            color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: 60px auto;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        .tabs {
+            margin-top: 20px;
+        }
+
+        .tabs span {
+            margin-right: 20px;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        .tabs .active {
+            color: #ef4444;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 5px;
+        }
+
+        .form {
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #cbd5e1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: none;
+            background: #111827;
+            color: white;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box i {
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        button {
+            background: #ef4444;
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .success {
+            margin-top: 20px;
+            padding: 12px;
+            background: #065f46;
+            border-radius: 6px;
+            color: #d1fae5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔐 Login or Register</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <span id="loginTab" class="active" onclick="showLogin()">Login</span>
+        <span id="registerTab" onclick="showRegister()">Register</span>
+    </div>
+
+    <!-- FORM -->
+    <div class="form">
+
+        <label id="userLabel">Username</label>
+        <input id="username" placeholder="Enter username">
+
+        <label id="passLabel">Password</label>
+        <div class="password-box">
+            <input id="password" type="password" placeholder="Enter password">
+            <i class="fa-solid fa-eye" onclick="togglePassword()"></i>
+        </div>
+
+        <button onclick="login()">Login</button>
+
+        <div id="msg" class="success" style="display:none;"></div>
+
+    </div>
+
+</div>
+
+<script>
+let isLogin = true;
+
+function showLogin() {
+    isLogin = true;
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+    document.querySelector("button").innerText = "Login";
+}
+
+function showRegister() {
+    isLogin = false;
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+    document.querySelector("button").innerText = "Register";
+}
+
+function togglePassword() {
+    let pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+function login() {
+    let msg = document.getElementById("msg");
+
+    if(isLogin){
+        msg.style.display = "block";
+        msg.innerText = "Logged in successfully!";
+        
+        setTimeout(()=>{
+            window.location.href = "/dashboard";
+        },1000);
+    } else {
+        msg.style.display = "block";
+        msg.innerText = "User registered! Please login.";
+    }
+}
+</script>
+
+</body>
+</html>

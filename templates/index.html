@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clinical Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI';
+            background: #0b1220;
+            color: white;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            background: #111827;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px;
+            margin-top: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover {
+            background: #1f2937;
+        }
+
+        .active {
+            border: 1px solid red;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #9ca3af;
+        }
+
+        input, select {
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            background: #1e293b;
+            color: white;
+        }
+
+        /* BUTTON */
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #2563eb;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        /* RESULT BAR */
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #065f46;
+            border-radius: 6px;
+            color: #d1fae5;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>📋 Menu</h3>
+
+    <a href="/clinical" class="active">Numerical Prediction</a>
+    <a href="/upload">Image Classification</a>
+    <a href="/">Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>🧪 Step 1: Enter Patient Details</h2>
+
+    <div class="grid">
+
+        <div class="field"><label>Age</label><input id="f1" type="number" value="21"></div>
+        <div class="field">
+            <label>Sex</label>
+            <select id="f2">
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
+        </div>
+        <div class="field"><label>Albumin (ALB)</label><input id="f3" value="4.0"></div>
+
+        <div class="field"><label>Alkaline Phosphatase (ALP)</label><input id="f4" value="50"></div>
+        <div class="field"><label>Alanine Transaminase (ALT)</label><input id="f5" value="10"></div>
+        <div class="field"><label>Aspartate Transaminase (AST)</label><input id="f6" value="10"></div>
+
+        <div class="field"><label>Bilirubin (BIL)</label><input id="f7" value="0.8"></div>
+        <div class="field"><label>Cholinesterase (CHE)</label><input id="f8" value="7500"></div>
+        <div class="field"><label>Cholesterol (CHOL)</label><input id="f9" value="159"></div>
+
+        <div class="field"><label>Creatinine (CREA)</label><input id="f10" value="0.8"></div>
+        <div class="field"><label>GGT</label><input id="f11" value="10"></div>
+        <div class="field"><label>Protein (PROT)</label><input id="f12" value="0"></div>
+
+    </div>
+
+    <button onclick="predict()">🔍 Predict</button>
+
+    <div id="resultBox" class="result" style="display:none;"></div>
+
+</div>
+
+<script>
+function predict() {
+
+    let data = {
+        f1:f1.value,f2:f2.value,f3:f3.value,f4:f4.value,
+        f5:f5.value,f6:f6.value,f7:f7.value,f8:f8.value,
+        f9:f9.value,f10:f10.value,f11:f11.value,f12:f12.value,
+        f13:0
+    };
+
+    fetch('/predict_clinical',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(d=>{
+        resultBox.style.display = "block";
+        resultBox.innerText = "Prediction: " + d.result;
+
+        if(d.result.includes("Detected")){
+            setTimeout(()=>{
+                window.location.href="/upload";
+            },2000);
+        }
+    });
+}
+</script>
+
+</body>
+</html>

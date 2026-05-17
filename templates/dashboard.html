@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- COMMON CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .toggle {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card-box {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card-box:hover {
+            transform: translateY(-5px);
+            background: #243447;
+        }
+
+        .card-box i {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #10b981;
+        }
+
+        .card-box h3 {
+            margin: 10px 0 5px;
+        }
+
+        .card-box p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa-solid fa-heart-pulse"></i> HepAI</h2>
+
+    <a href="/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="/clinical"><i class="fa-solid fa-stethoscope"></i> Numerical Prediction</a>
+    <a href="/upload"><i class="fa-solid fa-image"></i> Image Classification</a>
+    <a href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>Dashboard</h2>
+        <i class="fa-solid fa-moon toggle" onclick="toggleMode()"></i>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+        <!-- Clinical -->
+        <div class="card-box" onclick="goClinical()">
+            <i class="fa-solid fa-stethoscope"></i>
+            <h3>Clinical Prediction</h3>
+            <p>Enter patient lab values to detect hepatitis</p>
+        </div>
+
+        <!-- Image -->
+        <div class="card-box" onclick="goImage()">
+            <i class="fa-solid fa-x-ray"></i>
+            <h3>Image Diagnosis</h3>
+            <p>Upload CT scan for stage classification</p>
+        </div>
+
+        <!-- Info -->
+        <div class="card-box">
+            <i class="fa-solid fa-circle-info"></i>
+            <h3>System Info</h3>
+            <p>AI-powered Hepatitis Detection System</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function goClinical() {
+    window.location.href = "/clinical";
+}
+
+function goImage() {
+    window.location.href = "/upload";
+}
+
+/* Dark mode toggle */
+function toggleMode() {
+    let body = document.body;
+
+    if(body.style.background === "white"){
+        body.style.background = "#0b1220";
+        body.style.color = "white";
+    } else {
+        body.style.background = "white";
+        body.style.color = "black";
+    }
+}
+</script>
+
+</body>
+</html>

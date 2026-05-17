@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI';
+            background: #0b1220;
+            color: white;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            background: #111827;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px;
+            margin-top: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover {
+            background: #1f2937;
+        }
+
+        .active {
+            border: 1px solid red;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        /* UPLOAD BOX */
+        .upload-box {
+            border: 2px dashed #374151;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            background: #111827;
+            cursor: pointer;
+        }
+
+        .upload-box:hover {
+            border-color: #2563eb;
+        }
+
+        .upload-box i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #9ca3af;
+        }
+
+        .browse-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: 1px solid red;
+            color: red;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* FILE INFO */
+        .file-info {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* IMAGE PREVIEW */
+        img {
+            margin-top: 20px;
+            width: 250px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* BUTTON */
+        .predict-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #2563eb;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .predict-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* RESULT */
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #065f46;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>📋 Menu</h3>
+    <a href="/clinical">Numerical Prediction</a>
+    <a href="/upload" class="active">Image Classification</a>
+    <a href="/">Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>🖼️ Step 2: Upload Liver CT Scan Image</h2>
+
+    <!-- Upload Area -->
+    <div class="upload-box" onclick="document.getElementById('image').click()">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <p>Drag and drop file here</p>
+        <p style="font-size:12px;">Limit 200MB per file • JPG, PNG, JPEG</p>
+        <button class="browse-btn">Browse files</button>
+    </div>
+
+    <input type="file" id="image" hidden onchange="preview(event)">
+
+    <!-- File Info -->
+    <div id="fileInfo" class="file-info"></div>
+
+    <!-- Preview -->
+    <img id="preview">
+
+    <button class="predict-btn" onclick="upload()">🔍 Predict</button>
+
+    <!-- Result -->
+    <div id="resultBox" class="result"></div>
+
+</div>
+
+<script>
+function preview(event) {
+    let file = event.target.files[0];
+
+    document.getElementById("fileInfo").innerText =
+        file.name + " (" + (file.size/1024).toFixed(2) + " KB)";
+
+    let reader = new FileReader();
+    reader.onload = function() {
+        let img = document.getElementById("preview");
+        img.src = reader.result;
+        img.style.display = "block";
+    }
+    reader.readAsDataURL(file);
+}
+
+function upload() {
+    let file = document.getElementById("image").files[0];
+
+    if(!file){
+        alert("Please upload an image");
+        return;
+    }
+
+    let fd = new FormData();
+    fd.append("image", file);
+
+    fetch('/predict_image',{
+        method:'POST',
+        body:fd
+    })
+    .then(res=>res.json())
+    .then(d=>{
+        let box = document.getElementById("resultBox");
+        box.style.display = "block";
+        box.innerText = "Predicted Class: " + d.result;
+    });
+}
+</script>
+
+</body>
+</html>

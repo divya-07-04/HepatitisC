@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI';
+    background: #0b1220;
+    color: white;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    position: fixed;
+    background: #111827;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    color: #10b981;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.sidebar a:hover {
+    background: #1f2937;
+}
+
+/* Main */
+.main {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+/* Card */
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Inputs */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #0b1220;
+    border: none;
+    color: white;
+    border-radius: 6px;
+}
+
+/* Button */
+button {
+    background: #10b981;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #059669;
+}
+
+/* Result */
+.result {
+    margin-top: 15px;
+    padding: 12px;
+    background: #065f46;
+    border-radius: 6px;
+}
